@@ -23,7 +23,7 @@ namespace Optimizer
             return agent.GetChild(0).position.x - AgentSpawnX;
         }
 
-        public List<(List<List<List<float>>>, List<List<float>>)> Evolve(Transform[] agents)
+        public List<(List<List<List<float>>>, List<List<float>>)> Evolve(List<Transform> agents)
         {
             (List<List<List<float>>>, List<List<float>>)[] agentParams = new (List<List<List<float>>>, List<List<float>>)[2];
             List<(List<List<List<float>>>, List<List<float>>)> newAgentParams = new List<(List<List<List<float>>>, List<List<float>>)>();
@@ -31,7 +31,7 @@ namespace Optimizer
             // Gets top 2 best agents
             (int, int) bestAgentsIDX = (0, 0);
 
-            for(int i = 0; i < agents.Length; i++)
+            for(int i = 0; i < agents.Count; i++)
             {
                 if (CalcFitness(agents[i]) > CalcFitness(agents[bestAgentsIDX.Item1]))
                 {
@@ -39,7 +39,7 @@ namespace Optimizer
                 }
             }
 
-            for(int i = 0; i < agents.Length; i++)
+            for(int i = 0; i < agents.Count; i++)
             {
                 if (i == bestAgentsIDX.Item1)
                 {
@@ -57,7 +57,7 @@ namespace Optimizer
             agentParams[1] = (agents[bestAgentsIDX.Item2].gameObject.GetComponent(typeof(AgentNN)) as AgentNN).model.GetParams();
 
             // Optimizes new agents with top 2 RNG crossover
-            for (int i = 0; i < agents.Length; i++)
+            for (int i = 0; i < agents.Count; i++)
             {
                 (List<List<List<float>>>, List<List<float>>) newAgent = (new List<List<List<float>>>(), new List<List<float>>());
 
